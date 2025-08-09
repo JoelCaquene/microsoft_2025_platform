@@ -231,7 +231,7 @@
         <div class="card-body">
             <h5 class="card-title">Seu Código de Convite</h5>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id="invitationCode" value="{{ user.my_invitation_code }}" readonly>
+                <input type="text" class="form-control" id="invitationCode" value="{{ request.scheme }}://{{ request.get_host }}/register/?invite_code={{ user.my_invitation_code }}" readonly>
                 <button class="btn btn-primary" type="button" id="copyInvitationCode">Copiar</button>
             </div>
             <small class="text-muted" style="color: #bbb !important;">Compartilhe este código para convidar amigos!</small>
