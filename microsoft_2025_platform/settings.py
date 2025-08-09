@@ -1,7 +1,7 @@
 # microsoft_2025_platform/microsoft_2025_platform/settings.py
 
 from pathlib import Path
-import os 
+import os
 import dj_database_url  # Importamos a biblioteca para gerenciar a URL do banco de dados
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -35,8 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core', # Adicione esta linha para registrar seu app 'core'
-    'widget_tweaks', 
+    'core',  # Adicione esta linha para registrar seu app 'core'
+    'widget_tweaks',
     'localflavor',
 ]
 
@@ -50,6 +50,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Use WhiteNoise para servir arquivos estáticos em produção
+# O WhiteNoise deve ser adicionado após o SecurityMiddleware.
+if not DEBUG:
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
 ROOT_URLCONF = 'microsoft_2025_platform.urls'
 
 TEMPLATES = [
@@ -59,9 +64,9 @@ TEMPLATES = [
         # para a pasta 'templates' dentro do seu app 'core'.
         'DIRS': [
             BASE_DIR / 'templates',
-            BASE_DIR / 'core' / 'templates', # <--- ADICIONE ESTA LINHA
-        ], 
-        'APP_DIRS': True, # Mantenha True para que o Django procure também em 'app_name/templates/'
+            BASE_DIR / 'core' / 'templates',  # <--- ADICIONE ESTA LINHA
+        ],
+        'APP_DIRS': True,  # Mantenha True para que o Django procure também em 'app_name/templates/'
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -103,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 4, # Mínimo de 4 caracteres
+            'min_length': 4,  # Mínimo de 4 caracteres
         }
     },
     # Os validadores abaixo foram REMOVIDOS/COMENTADOS para permitir maior flexibilidade na senha:
@@ -122,12 +127,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br' # Altere para 'pt-br' para mensagens padrão do Django em português
+LANGUAGE_CODE = 'pt-br'  # Altere para 'pt-br' para mensagens padrão do Django em português
 # Se quiser mensagens de erro de validação de senha em português, o Django as traduzirá
 # se você tiver os validadores padrão e o LANGUAGE_CODE estiver em 'pt-br'.
 # Como removemos a maioria dos validadores, as mensagens virão do nosso forms.py ou das que restaram.
 
-TIME_ZONE = 'Africa/Luanda' # Definindo o fuso horário para Luanda
+TIME_ZONE = 'Africa/Luanda'  # Definindo o fuso horário para Luanda
 
 USE_I18N = True
 
@@ -137,48 +142,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-STATIC_URL = '/static/' 
+STATIC_URL = '/static/'
 
-# ***** CORREÇÃO AQUI para STATICFILES_DIRS *****
 # Onde o Django DEVE PROCURAR arquivos estáticos DURANTE O DESENVOLVIMENTO
 # A pasta 'static' DEVE estar na raiz do projeto (ao lado de manage.py)
 STATICFILES_DIRS = [
-    BASE_DIR / "static", 
+    BASE_DIR / "static",
 ]
 
 # Onde o Django DEVE COLETAR arquivos estáticos para DEPLOYMENT (produção)
 # Rode 'python manage.py collectstatic' para que esta pasta seja preenchida.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Use WhiteNoise para servir arquivos estáticos e de mídia em produção
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Media files (user uploads)
-MEDIA_URL = '/media/' # URL para servir arquivos de mídia
-MEDIA_ROOT = BASE_DIR / 'media' # Diretório onde os arquivos de mídia serão armazenados
+MEDIA_URL = '/media/'  # URL para servir arquivos de mídia
+MEDIA_ROOT = BASE_DIR / 'media'  # Diretório onde os arquivos de mídia serão armazenados
 
 # Define o modelo de usuário personalizado
 AUTH_USER_MODEL = 'core.CustomUser'
 
 # Adições para URLs de login e redirecionamento
-LOGIN_URL = '/login/' 
-LOGIN_REDIRECT_URL = 'home' 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
-
-
-# Configuração adicional para o Render servir arquivos estáticos e de mídia
-# Isso é crucial para o deployment no Render
-# STATIC_ROOT já foi definido acima
-if not DEBUG:
-    # Use o WhiteNoise para servir arquivos estáticos e de mídia em produção
-    # Adicione a biblioteca whitenoise em seu requirements.txt
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'whitenoise.middleware.WhiteNoiseMiddleware', # Adiciona WhiteNoise para servir arquivos estáticos
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
-
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
