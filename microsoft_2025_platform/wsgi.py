@@ -14,7 +14,3 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'microsoft_2025_platform.settings')
 
 application = get_wsgi_application()
-
-# Remova as duas linhas abaixo
-# from whitenoise.django import DjangoWhiteNoise
-# application = DjangoWhiteNoise(application)
