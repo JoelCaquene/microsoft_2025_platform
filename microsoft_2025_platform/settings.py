@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'localflavor',
 ]
 
+# Configuração de MIDDLEWARE: a lista é definida uma vez e o WhiteNoise
+# é inserido apenas se a aplicação não estiver em modo de depuração.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,8 +52,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Use WhiteNoise para servir arquivos estáticos em produção
-# O WhiteNoise deve ser adicionado após o SecurityMiddleware.
 if not DEBUG:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
