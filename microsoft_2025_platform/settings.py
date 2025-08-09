@@ -20,7 +20,6 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 ALLOWED_HOSTS += ['localhost', '127.0.0.1']
 
-
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -69,7 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'microsoft_2025_platform.wsgi.application'
 
-
 # Database
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
@@ -86,7 +84,6 @@ else:
         }
     }
 
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -97,13 +94,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'Africa/Luanda'
 USE_I18N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
@@ -112,7 +107,6 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Media files (user uploads)
 MEDIA_URL = '/media/'
